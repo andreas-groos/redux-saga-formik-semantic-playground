@@ -16,18 +16,19 @@ import makeSelectMainPage from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 
-import { defaultAction } from './actions';
+import { defaultAction, loadApi } from './actions';
 
 export function MainPage(props) {
   useInjectReducer({ key: 'mainPage', reducer });
   useInjectSaga({ key: 'mainPage', saga });
-
-  console.log('props', props);
   return (
     <div>
       <h1>HomePage</h1>
       <button type="button" onClick={() => props.defaultAction(`working`)}>
         Default Action
+      </button>
+      <button type="button" onClick={() => props.loadApi()}>
+        Fetch Data
       </button>
     </div>
   );
@@ -35,6 +36,7 @@ export function MainPage(props) {
 
 MainPage.propTypes = {
   defaultAction: PropTypes.func,
+  loadApi: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -44,6 +46,7 @@ const mapStateToProps = createStructuredSelector({
 function mapDispatchToProps(dispatch) {
   return {
     defaultAction: text => dispatch(defaultAction(text)),
+    loadApi: () => dispatch(loadApi()),
   };
 }
 
