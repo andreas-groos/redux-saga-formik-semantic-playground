@@ -1,6 +1,21 @@
-$color: navy;
+#app {
+  .ant-layout {
+    min-height: 100vh;
+  }
+  .ant-list {
+    margin-top: 2rem;
+    background: #fff;
+  }
+  h1 {
+    text-align: center;
+    padding: 1rem 0;
+  }
+}
 
-button {
-  color: navy;
-  padding: 1rem 2rem;
+body,
+html {
+  p {
+    font-family: sans;
+    font-size: 1rem;
+  }
 }
