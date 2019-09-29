@@ -34,6 +34,7 @@ import configureStore from './configureStore';
 
 // Import i18n messages
 import { translationMessages } from './i18n';
+import 'semantic-ui-css/semantic.min.css';
 
 // Create redux store with history
 const initialState = {};

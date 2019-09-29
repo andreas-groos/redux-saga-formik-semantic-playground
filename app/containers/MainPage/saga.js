@@ -39,14 +39,14 @@ export function* getApi() {
       'https://jsonplaceholder.typicode.com/todos',
     );
     yield put(loadApiSuccess(result.data));
-    // yield put(addToast('new data fetched', 'success', 'one'));
     yield put(
       addToast({ msg: 'new data fetched', status: 'success', id: 'one' }),
     );
   } catch (err) {
     yield put(loadApiError(err.message));
-    addToast({ msg: 'error fetching data', status: 'error', id: 'one' });
-    // yield put(addToast('request failed', 'error', 'two'));
+    yield put(
+      addToast({ msg: 'error fetching data', status: 'error', id: 'one' }),
+    );
   }
 }
 

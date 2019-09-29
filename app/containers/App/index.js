@@ -14,7 +14,6 @@ import MainPage from 'containers/MainPage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 
 import GlobalStyle from '../../global-styles';
-import 'antd/dist/antd.css'; // or 'antd/dist/antd.less'
 
 export default function App() {
   return (

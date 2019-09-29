@@ -4,21 +4,22 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 
-import {
-  Button,
-  notification,
-  Row,
-  Col,
-  Layout,
-  List,
-  Typography,
-  Avatar,
-  Icon,
-} from 'antd';
+// import {
+//   Button,
+//   notification,
+//   Row,
+//   Col,
+//   Layout,
+//   List,
+//   Typography,
+//   Avatar,
+//   Icon,
+// } from 'antd';
+import { Grid, Button, Confirm, List, Image, Icon } from 'semantic-ui-react';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
-import makeSelectMainPage, { makeSelectToasts } from './selectors';
+import makeSelectMainPage from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 
@@ -32,81 +33,93 @@ import BasicModal from '../../components/BasicModal';
 import InputForm from '../../components/InputForm';
 import Toasts from '../Toasts/index';
 
-const { Title } = Typography;
+// const { Title } = Typography;
 
 export function MainPage(props) {
   useInjectReducer({ key: 'mainPage', reducer });
   useInjectSaga({ key: 'mainPage', saga });
-  useEffect(() => {
-    if (props.mainPage.error) {
-      notification.warning({
-        message: 'Request aborted',
-        description: props.mainPage.error,
-      });
-    }
-    if (props.mainPage.data.length > 0) {
-      notification.success({
-        message: 'New data fetched',
-        // description: props.mainPage.error,
-      });
-    }
-  }, [props.mainPage.error, props.mainPage.data]);
-
   const fetchData = () => {
     props.loadApi();
   };
 
+  const handleListClick = (e, value) => {
+    console.log(' value', value);
+  };
+
   return (
-    <Layout>
-      <Layout.Content>
-        <Title>Fetching Data example</Title>
-        <Toasts />
-        <Row>
-          <Col span={12} offset={6}>
-            <Button size="large" block onClick={fetchData}>
+    <div>
+      <Grid>
+        <Grid.Row>
+          <Grid.Column>
+            {/* // <Title>Fetching Data example</Title> */}
+            <Toasts />
+            <Button size="large" onClick={fetchData}>
               {props.mainPage.loading ? 'Fetching' : 'Fetch Data'}
             </Button>
-          </Col>
-        </Row>
-
+          </Grid.Column>
+        </Grid.Row>
         <br />
-        <Row>
-          <Col span={12} offset={6}>
-            <InputForm />
-          </Col>
-        </Row>
-        <Row>
-          <Col span={12} offset={6}>
-            <List
-              size="large"
-              header={<div>Users</div>}
-              bordered
-              dataSource={props.mainPage.data}
-              renderItem={(item, i) => (
-                <List.Item>
-                  <List.Item.Meta
-                    avatar={
-                      <Avatar src={`https://i.pravatar.cc/200?img=${i % 70}`} />
-                    }
-                    title={item.title}
-                    description={`User ID: ${i}`}
-                  />
-                </List.Item>
-              )}
-            />
-          </Col>
-        </Row>
-      </Layout.Content>
-      <BasicModal
-        handleCancel={() => {
-          props.loadApiAbort();
-        }}
-        handleOk={() => {
-          props.loadApiConfirm();
-        }}
-        visible={props.mainPage.confirmationModal}
+        <Grid.Row>
+          <Grid.Column>
+            <List divided relaxed size="big">
+              {props.mainPage.data.map((d, i) => {
+                return (
+                  <List.Item key={i} onClick={e => handleListClick(e, d)}>
+                    <List.Content floated="right">
+                      <Icon
+                        disabled
+                        name={d.completed ? 'check' : 'close'}
+                        color={d.completed ? 'green' : 'red'}
+                      />
+                    </List.Content>
+                    <Image
+                      avatar
+                      src={`https://i.pravatar.cc/200?img=${i % 70}`}
+                    />
+                    <List.Content>
+                      <List.Header>{d.title}</List.Header>
+                      <List.Description as="p">{`User ID: ${i}`}</List.Description>
+                    </List.Content>
+                  </List.Item>
+                );
+              })}
+            </List>
+          </Grid.Column>
+        </Grid.Row>
+        {/* <Row>
+        <Col span={12} offset={6}>
+          <InputForm />
+        </Col>
+      </Row>
+      <Row>
+        <Col span={12} offset={6}>
+          <List
+            size="large"
+            header={<div>Users</div>}
+            bordered
+            dataSource={props.mainPage.data}
+            renderItem={(item, i) => (
+              <List.Item>
+                <List.Item.Meta
+                  avatar={
+                    <Avatar src={`https://i.pravatar.cc/200?img=${i % 70}`} />
+                  }
+                  title={item.title}
+                  description={`User ID: ${i}`}
+                />
+              </List.Item>
+            )}
+          />
+        </Col>
+      </Row> */}
+      </Grid>
+      <Confirm
+        open={props.mainPage.confirmationModal}
+        header="Do you want to fetch additional data"
+        onCancel={props.loadApiAbort}
+        onConfirm={props.loadApiConfirm}
       />
-    </Layout>
+    </div>
   );
 }
 
