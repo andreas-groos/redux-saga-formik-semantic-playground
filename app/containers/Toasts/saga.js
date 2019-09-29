@@ -14,7 +14,7 @@ export function* handleToast({ msg, status, id }) {
   });
   yield put(hideToast({ id }));
 }
-// Individual exports for testing
+// INFO: only usees handleToast() by now
 export default function* toastsSaga() {
-  yield takeLatest(ADD_TOAST, handleToast);
+  // yield takeLatest(ADD_TOAST, handleToast);
 }

@@ -60,7 +60,7 @@ export function MainPage(props) {
     <Layout>
       <Layout.Content>
         <Title>Fetching Data example</Title>
-        {/* <Toasts /> */}
+        <Toasts />
         <Row>
           <Col span={12} offset={6}>
             <Button size="large" block onClick={fetchData}>
@@ -120,7 +120,6 @@ MainPage.propTypes = {
 
 const mapStateToProps = createStructuredSelector({
   mainPage: makeSelectMainPage(),
-  toasts: makeSelectToasts(),
 });
 
 function mapDispatchToProps(dispatch) {

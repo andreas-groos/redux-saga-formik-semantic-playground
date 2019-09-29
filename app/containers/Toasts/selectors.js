@@ -16,7 +16,6 @@ const selectToastsDomain = state => state.toasts || initialState;
  */
 
 const makeSelectToasts = () => {
-  console.log('TOASTSVC');
   return createSelector(
     selectToastsDomain,
     substate => substate,
