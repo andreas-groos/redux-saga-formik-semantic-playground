@@ -27,7 +27,7 @@ export function Toasts(props) {
       <button
         type="button"
         onClick={() => {
-          props.addToast('a', 'error', 5);
+          props.addToast({ msg: 'win', status: 'done', id: 'three' });
         }}
       >
         Toast
@@ -47,7 +47,7 @@ const mapStateToProps = createStructuredSelector({
 
 function mapDispatchToProps(dispatch) {
   return {
-    addToast: () => dispatch(addToast({ msg: 'hi', status: 'there', id: 'a' })),
+    addToast: ({ msg, status, id }) => dispatch(addToast({ msg, status, id })),
     // showToast: () => dispatch(showToast()),
     // hideToast: ({ id }) => dispatch(hideToast({ id })),
   };

@@ -12,7 +12,6 @@ export const initialState = {
 
 /* eslint-disable default-case, no-param-reassign */
 const toastsReducer = (state = initialState, action) => {
-  console.log('action', action);
   return produce(state, draft => {
     switch (action.type) {
       case SHOW_TOAST:

@@ -18,7 +18,7 @@ import {
 
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
-import makeSelectMainPage from './selectors';
+import makeSelectMainPage, { makeSelectToasts } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 
@@ -30,7 +30,7 @@ import {
 } from './actions';
 import BasicModal from '../../components/BasicModal';
 import InputForm from '../../components/InputForm';
-import Toasts from '../Toasts';
+import Toasts from '../Toasts/index';
 
 const { Title } = Typography;
 
@@ -60,8 +60,7 @@ export function MainPage(props) {
     <Layout>
       <Layout.Content>
         <Title>Fetching Data example</Title>
-        <Toasts />
-
+        {/* <Toasts /> */}
         <Row>
           <Col span={12} offset={6}>
             <Button size="large" block onClick={fetchData}>
@@ -121,6 +120,7 @@ MainPage.propTypes = {
 
 const mapStateToProps = createStructuredSelector({
   mainPage: makeSelectMainPage(),
+  toasts: makeSelectToasts(),
 });
 
 function mapDispatchToProps(dispatch) {

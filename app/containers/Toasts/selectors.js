@@ -15,11 +15,13 @@ const selectToastsDomain = state => state.toasts || initialState;
  * Default selector used by Toasts
  */
 
-const makeSelectToasts = () =>
-  createSelector(
+const makeSelectToasts = () => {
+  console.log('TOASTSVC');
+  return createSelector(
     selectToastsDomain,
     substate => substate,
   );
+};
 
 export default makeSelectToasts;
 export { selectToastsDomain };

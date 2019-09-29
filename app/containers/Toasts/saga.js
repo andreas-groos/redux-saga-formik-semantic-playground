@@ -5,6 +5,7 @@ import { ADD_TOAST } from './constants';
 const DELAY = 5000;
 
 export function* handleToast({ msg, status, id }) {
+  console.log('msg, status, id', msg, status, id);
   yield put(showToast({ msg, status, id }));
   yield new Promise(res => {
     setTimeout(() => {

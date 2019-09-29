@@ -9,6 +9,9 @@ import {
   loadApiAbort,
   loadApiConfirm,
 } from './actions';
+import { ADD_TOAST } from '../Toasts/constants';
+import { addToast } from '../Toasts/actions';
+import { handleToast } from '../Toasts/saga';
 
 const request = url => {
   return axios.get(url);
@@ -36,8 +39,14 @@ export function* getApi() {
       'https://jsonplaceholder.typicode.com/todos',
     );
     yield put(loadApiSuccess(result.data));
+    // yield put(addToast('new data fetched', 'success', 'one'));
+    yield put(
+      addToast({ msg: 'new data fetched', status: 'success', id: 'one' }),
+    );
   } catch (err) {
     yield put(loadApiError(err.message));
+    addToast({ msg: 'error fetching data', status: 'error', id: 'one' });
+    // yield put(addToast('request failed', 'error', 'two'));
   }
 }
 
@@ -45,4 +54,5 @@ export function* getApi() {
 export default function* mainPageSaga() {
   // See example in containers/HomePage/saga.js
   yield takeLatest(LOAD_API, getApi);
+  yield takeLatest(ADD_TOAST, handleToast);
 }
