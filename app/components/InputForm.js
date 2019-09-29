@@ -6,11 +6,15 @@ function hasErrors(fieldsError) {
   return Object.keys(fieldsError).some(field => fieldsError[field]);
 }
 
-// const initialFormState = {};
+/**
+ *TODO: check render in Firefox, it's different
+ *
+ */
+
 function InputForm(props) {
   const {
     getFieldDecorator,
-    getFieldsError,
+    // getFieldsError,
     getFieldError,
     isFieldTouched,
   } = props.form;
@@ -59,7 +63,7 @@ function InputForm(props) {
         <Button
           type="primary"
           htmlType="submit"
-          disabled={hasErrors(getFieldsError())}
+          // disabled={hasErrors(getFieldsError())}
         >
           Log in
         </Button>
