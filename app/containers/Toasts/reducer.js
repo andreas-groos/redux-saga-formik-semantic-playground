@@ -6,9 +6,7 @@
 import produce from 'immer';
 import { SHOW_TOAST, HIDE_TOAST } from './constants';
 
-export const initialState = {
-  hi: 'there',
-};
+export const initialState = {};
 
 /* eslint-disable default-case, no-param-reassign */
 const toastsReducer = (state = initialState, action) => {

@@ -25,4 +25,24 @@ html {
   .ui.dimmer {
     background-color: rgba(0, 0, 0, 0.6);
   }
+  #toast {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    background: #f7f8fa;
+    border-left: 6px solid #4881dd;
+    padding: 1rem 2rem;
+    border-radius: 0.5rem;
+    z-index: 10;
+    box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.3);
+    animation: fadeIn ease 0.5s;
+  }
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
 }

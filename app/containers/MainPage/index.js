@@ -29,7 +29,6 @@ import {
   loadApiAbort,
   loadApiConfirm,
 } from './actions';
-import BasicModal from '../../components/BasicModal';
 import InputForm from '../../components/InputForm';
 import Toasts from '../Toasts/index';
 
@@ -91,32 +90,6 @@ export function MainPage(props) {
             </List>
           </Grid.Column>
         </Grid.Row>
-        {/* <Row>
-        <Col span={12} offset={6}>
-          <InputForm />
-        </Col>
-      </Row>
-      <Row>
-        <Col span={12} offset={6}>
-          <List
-            size="large"
-            header={<div>Users</div>}
-            bordered
-            dataSource={props.mainPage.data}
-            renderItem={(item, i) => (
-              <List.Item>
-                <List.Item.Meta
-                  avatar={
-                    <Avatar src={`https://i.pravatar.cc/200?img=${i % 70}`} />
-                  }
-                  title={item.title}
-                  description={`User ID: ${i}`}
-                />
-              </List.Item>
-            )}
-          />
-        </Col>
-      </Row> */}
       </Grid>
       <Confirm
         open={props.mainPage.confirmationModal}
