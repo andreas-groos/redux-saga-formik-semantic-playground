@@ -30,6 +30,7 @@ import {
 } from './actions';
 import BasicModal from '../../components/BasicModal';
 import InputForm from '../../components/InputForm';
+import Toasts from '../Toasts';
 
 const { Title } = Typography;
 
@@ -59,6 +60,7 @@ export function MainPage(props) {
     <Layout>
       <Layout.Content>
         <Title>Fetching Data example</Title>
+        <Toasts />
 
         <Row>
           <Col span={12} offset={6}>
