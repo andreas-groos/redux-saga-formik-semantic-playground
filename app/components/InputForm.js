@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Form } from 'semantic-ui-react';
+import { Form, Button } from 'semantic-ui-react';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
@@ -19,30 +19,30 @@ export const DisplayFormikState = props => (
   </div>
 );
 
-function InputForm(props) {
+function InputForm() {
   const handleSubmit = e => {
-    e.preventDefault();
+    // e.preventDefault();
     alert('submitted');
-  };
-  const handleChange = e => {
-    const { name, value } = e.target;
-    console.log('name, value', name, value);
   };
 
   return (
     <div>
       <Formik
-        initialValues={{ email: '' }}
-        onSubmit={(values, { setSubmitting }) => {
+        initialValues={{ email: '', firstName: 'Andreas', lastName: '' }}
+        onSubmit={(values, actions) => {
           setTimeout(() => {
             alert(JSON.stringify(values, null, 2));
-            setSubmitting(false);
+            actions.setSubmitting(false);
+            actions.resetForm();
+            actions.setFieldValue('firstName', 'aaa');
           }, 500);
         }}
         validationSchema={Yup.object().shape({
           email: Yup.string()
             .email()
             .required('Required'),
+          firstName: Yup.string().required('Required'),
+          lastName: Yup.string().required('Required'),
         })}
       >
         {props => {
@@ -58,58 +58,71 @@ function InputForm(props) {
             handleReset,
           } = props;
           return (
-            <form onSubmit={handleSubmit}>
-              <label htmlFor="email" style={{ display: 'block' }}>
-                Email
-              </label>
-              <input
-                id="email"
-                placeholder="Enter your email"
-                type="text"
-                value={values.email}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                className={
-                  errors.email && touched.email
-                    ? 'text-input error'
-                    : 'text-input'
-                }
-              />
-              {errors.email && touched.email && (
-                <div className="input-feedback">{errors.email}</div>
-              )}
+            <Form onSubmit={handleSubmit}>
+              <Form.Group>
+                <Form.Input
+                  onChange={handleChange}
+                  value={values.firstName}
+                  name="firstName"
+                  label="First name"
+                  placeholder="First Name"
+                  width={6}
+                  onBlur={handleBlur}
+                />
+                <div>
+                  {errors.firstName && touched.firstName && (
+                    <div className="input-feedback">{errors.firstName}</div>
+                  )}
+                </div>
+                <Form.Input
+                  onChange={handleChange}
+                  label="Last Name"
+                  name="lastName"
+                  value={values.lastName}
+                  placeholder="Last Name"
+                  width={10}
+                  onBlur={handleBlur}
+                />
+                {errors.lastName && touched.lastName && (
+                  <div className="input-feedback">{errors.lastName}</div>
+                )}
+                <Form.Input
+                  onChange={handleChange}
+                  label="Email"
+                  value={values.email}
+                  name="email"
+                  placeholder="Last Name"
+                  width={8}
+                  onBlur={handleBlur}
+                  error={
+                    errors.email && touched.email
+                      ? {
+                          content: 'Please enter valid email',
+                          pointing: 'above',
+                        }
+                      : null
+                  }
+                />
+              </Form.Group>
 
-              <button
+              <Button
                 type="button"
                 className="outline"
                 onClick={handleReset}
                 disabled={!dirty || isSubmitting}
               >
                 Reset
-              </button>
-              <button type="submit" disabled={isSubmitting}>
+              </Button>
+              <Button type="submit" disabled={isSubmitting}>
                 Submit
-              </button>
+              </Button>
 
               <DisplayFormikState {...props} />
-            </form>
+            </Form>
           );
         }}
       </Formik>
-      <Form onSubmit={handleSubmit}>
-        <Form.Group>
-          <Form.Input
-            onChange={handleChange}
-            name="firstName"
-            label="First name"
-            placeholder="First Name"
-            width={6}
-            // error="nononononon"
-          />
-          <Form.Input label="Last Name" placeholder="Last Name" width={10} />
-          <Form.Input label="Email" placeholder="Last Name" width={8} />
-        </Form.Group>
-      </Form>
+      <Form onSubmit={handleSubmit} />
     </div>
   );
 }
