@@ -51,6 +51,11 @@ export function MainPage(props) {
       <Grid>
         <Grid.Row>
           <Grid.Column>
+            <InputForm />
+          </Grid.Column>
+        </Grid.Row>
+        <Grid.Row>
+          <Grid.Column>
             {/* // <Title>Fetching Data example</Title> */}
             <Toasts />
             <Button size="large" onClick={fetchData}>
