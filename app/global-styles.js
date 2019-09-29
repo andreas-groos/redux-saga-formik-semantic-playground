@@ -1,5 +1,7 @@
 import { createGlobalStyle } from 'styled-components';
 
+// TODO: switch to scss
+
 const GlobalStyle = createGlobalStyle`
   html,
   body {
@@ -24,7 +26,7 @@ const GlobalStyle = createGlobalStyle`
 
   p,
   label {
-    font-family: Georgia, Times, 'Times New Roman', serif;
+    font-family: sans;
     line-height: 1.5em;
   }
 `;
