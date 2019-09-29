@@ -63,10 +63,35 @@ export function MainPage(props) {
           </Grid.Column>
         </Grid.Row>
         <br />
-        <Grid.Row>
+        <Grid.Row columns={2}>
           <Grid.Column>
             <List divided relaxed size="big">
               {props.mainPage.data.map((d, i) => {
+                return (
+                  <List.Item key={i} onClick={e => handleListClick(e, d)}>
+                    <List.Content floated="right">
+                      <Icon
+                        disabled
+                        name={d.completed ? 'check' : 'close'}
+                        color={d.completed ? 'green' : 'red'}
+                      />
+                    </List.Content>
+                    <Image
+                      avatar
+                      src={`https://i.pravatar.cc/200?img=${i % 70}`}
+                    />
+                    <List.Content>
+                      <List.Header>{d.title}</List.Header>
+                      <List.Description as="p">{`User ID: ${i}`}</List.Description>
+                    </List.Content>
+                  </List.Item>
+                );
+              })}
+            </List>
+          </Grid.Column>
+          <Grid.Column>
+            <List divided relaxed size="big">
+              {props.mainPage.data.reverse().map((d, i) => {
                 return (
                   <List.Item key={i} onClick={e => handleListClick(e, d)}>
                     <List.Content floated="right">
