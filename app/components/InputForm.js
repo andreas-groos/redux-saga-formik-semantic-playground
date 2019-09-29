@@ -1,98 +1,79 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
-import { Formik } from 'formik';
-import { Row, Col, Input, Form } from 'antd';
+import PropTypes from 'prop-types';
+import { Icon, Button, Input, Form } from 'antd';
+
+function hasErrors(fieldsError) {
+  return Object.keys(fieldsError).some(field => fieldsError[field]);
+}
 
 // const initialFormState = {};
-function InputForm() {
+function InputForm(props) {
+  const {
+    getFieldDecorator,
+    getFieldsError,
+    getFieldError,
+    isFieldTouched,
+  } = props.form;
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    props.form.validateFields((err, values) => {
+      console.log('err', err);
+      console.log('values', values);
+    });
+  };
+
+  // Only show error after a field is touched.
+  const usernameError = isFieldTouched('username') && getFieldError('username');
+  const passwordError = isFieldTouched('password') && getFieldError('password');
   return (
-    <div>
-      <Formik
-        initialValues={{
-          email: '',
-          social: {
-            facebook: '',
-            twitter: '',
-          },
-          /** { email, social } */
-        }}
-        onSubmit={(values, actions) => {
-          //   MyImaginaryRestApiCall(user.id, values).then(
-          //     updatedUser => {
-          //       actions.setSubmitting(false);
-          //       updateUser(updatedUser);
-          //       onClose();
-          //     },
-          //     error => {
-          //       actions.setSubmitting(false);
-          //       actions.setErrors(transformMyRestApiErrorsToAnObject(error));
-          //       actions.setStatus({ msg: 'Set some arbitrary status or data' });
-          //     },
-          //   );
-          console.log('values', values);
-          console.log('actions', actions);
-        }}
-        render={({
-          values,
-          errors,
-          status,
-          touched,
-          handleBlur,
-          handleChange,
-          handleSubmit,
-          isSubmitting,
-        }) => {
-          //   console.log('values', values);
-          console.log('errors', errors);
-          return (
-            <form onSubmit={handleSubmit}>
-              <Form.Item label="Email">
-                <Input
-                  type="email"
-                  name="email"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values.email}
-                  placeholder="your email"
-                />
-                {errors.email && touched.email && <div>{errors.email}</div>}
-              </Form.Item>
-              <Form.Item label="Facebook">
-                <Input
-                  type="text"
-                  name="social.facebook"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values.social.facebook}
-                />
-                {errors.social &&
-                  errors.social.facebook &&
-                  touched.facebook && <div>{errors.social.facebook}</div>}
-              </Form.Item>
-              <Form.Item label="Twitter">
-                <Input
-                  type="text"
-                  name="social.twitter"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values.social.twitter}
-                />
-                {errors.social && errors.social.twitter && touched.twitter && (
-                  <div>{errors.social.twitter}</div>
-                )}
-              </Form.Item>
-              {status && status.msg && <div>{status.msg}</div>}
-              <button type="submit" disabled={isSubmitting}>
-                Submit
-              </button>
-            </form>
-          );
-        }}
-      />
-    </div>
+    <Form layout="inline" onSubmit={handleSubmit}>
+      <Form.Item
+        validateStatus={usernameError ? 'error' : ''}
+        help={usernameError || ''}
+      >
+        {getFieldDecorator('username', {
+          rules: [{ required: true, message: 'Please input your username!' }],
+        })(
+          <Input
+            prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
+            placeholder="Username"
+          />,
+        )}
+      </Form.Item>
+      <Form.Item
+        validateStatus={passwordError ? 'error' : ''}
+        help={passwordError || ''}
+      >
+        {getFieldDecorator('password', {
+          rules: [{ required: true, message: 'Please input your Password!' }],
+        })(
+          <Input
+            prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+            type="password"
+            placeholder="Password"
+          />,
+        )}
+      </Form.Item>
+      <Form.Item>
+        <Button
+          type="primary"
+          htmlType="submit"
+          disabled={hasErrors(getFieldsError())}
+        >
+          Log in
+        </Button>
+      </Form.Item>
+    </Form>
   );
 }
 
-InputForm.propTypes = {};
+const WrappedHorizontalLoginForm = Form.create({ name: 'horizontal_login' })(
+  InputForm,
+);
 
-export default InputForm;
+InputForm.propTypes = {
+  form: PropTypes.object,
+};
+
+export default WrappedHorizontalLoginForm;
