@@ -29,6 +29,7 @@ import {
   loadApiConfirm,
 } from './actions';
 import BasicModal from '../../components/BasicModal';
+import InputForm from '../../components/InputForm';
 
 const { Title } = Typography;
 
@@ -64,6 +65,13 @@ export function MainPage(props) {
             <Button size="large" block onClick={fetchData}>
               {props.mainPage.loading ? 'Fetching' : 'Fetch Data'}
             </Button>
+          </Col>
+        </Row>
+
+        <br />
+        <Row>
+          <Col span={12} offset={6}>
+            <InputForm />
           </Col>
         </Row>
         <Row>
