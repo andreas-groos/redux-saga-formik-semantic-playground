@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Form, Button } from 'semantic-ui-react';
-import { Formik } from 'formik';
+import { Form, Button, Checkbox, Grid } from 'semantic-ui-react';
+import { Formik, FieldArray, Field } from 'formik';
 import * as Yup from 'yup';
 
 export const DisplayFormikState = props => (
@@ -19,6 +19,16 @@ export const DisplayFormikState = props => (
   </div>
 );
 
+const initialFormState = {
+  email: '',
+  firstName: '',
+  lastName: '',
+  todos: [
+    { name: 'one', task: 'b', done: true },
+    { name: 'two', task: 'a', done: false },
+  ],
+};
+
 function InputForm() {
   const handleSubmit = e => {
     // e.preventDefault();
@@ -28,7 +38,7 @@ function InputForm() {
   return (
     <div>
       <Formik
-        initialValues={{ email: '', firstName: 'Andreas', lastName: '' }}
+        initialValues={initialFormState}
         onSubmit={(values, actions) => {
           setTimeout(() => {
             alert(JSON.stringify(values, null, 2));
@@ -102,6 +112,71 @@ function InputForm() {
                         }
                       : null
                   }
+                />
+              </Form.Group>
+              <Form.Group>
+                <FieldArray
+                  name="todos"
+                  render={arrayHelpers => (
+                    <div>
+                      {values.todos.map((todo, index) => (
+                        <div key={index}>
+                          <Grid columns={4}>
+                            <Grid.Row>
+                              <Grid.Column>
+                                <Form.Input
+                                  label="Name"
+                                  name={`todos.${index}.name`}
+                                  onChange={handleChange}
+                                  value={values.todos[index].name}
+                                />
+                              </Grid.Column>
+                              <Grid.Column>
+                                <Form.Input
+                                  label="Task"
+                                  name={`todos.${index}.task`}
+                                  onChange={handleChange}
+                                  value={values.todos[index].task}
+                                />
+                              </Grid.Column>
+                              <Grid.Column>
+                                <Form.Input label="done?">
+                                  <Checkbox
+                                    id={`todos.${index}.done`}
+                                    name={`todos.${index}.done`}
+                                    type="checkbox"
+                                    value={values.todos[index].done}
+                                    checked={values.todos[index].done}
+                                    onChange={handleChange}
+                                  />
+                                </Form.Input>
+                              </Grid.Column>
+                              <Grid.Column>
+                                <Button
+                                  type="button"
+                                  onClick={() => arrayHelpers.remove(index)}
+                                >
+                                  -
+                                </Button>
+                                <Button
+                                  type="button"
+                                  onClick={() =>
+                                    arrayHelpers.insert(index, {
+                                      name: '',
+                                      task: '',
+                                      done: false,
+                                    })
+                                  }
+                                >
+                                  +
+                                </Button>
+                              </Grid.Column>
+                            </Grid.Row>
+                          </Grid>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 />
               </Form.Group>
 
